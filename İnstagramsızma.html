@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sızma Şakası - Key Kontrol</title>
+  <style>
+    body {
+      background: black;
+      color: #39ff14;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .hidden {
+      display: none;
+    }
+    .container {
+      text-align: center;
+      width: 300px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      font-size: 14px;
+      background: #111;
+      color: #39ff14;
+      box-shadow: 0 0 8px #39ff14;
+      outline: none;
+      margin-top: 15px;
+    }
+    input::placeholder {
+      color: #39ff14cc;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #007700;
+      color: #39ff14;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #39ff14;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #00aa00;
+    }
+    .loading, .password, p, .title {
+      text-shadow: 0 0 10px #39ff14;
+    }
+    .loading {
+      color: #39ff14;
+      margin-top: 15px;
+      display: none;
+      font-weight: bold;
+    }
+    .password {
+      margin-top: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #39ff14;
+      display: none;
+      text-shadow: 0 0 15px #39ff14;
+    }
+    .logo {
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle at 30% 30%, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+      border-radius: 20px;
+      box-shadow: 0 0 20px #39ff14cc;
+      margin: 0 auto 15px;
+      position: relative;
+    }
+    .logo::before {
+      content: "";
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      width: 50%;
+      height: 50%;
+      background: white;
+      border-radius: 50%;
+    }
+    .logo::after {
+      content: "";
+      position: absolute;
+      top: 10%;
+      left: 10%;
+      width: 15%;
+      height: 15%;
+      background: white;
+      border-radius: 50%;
+    }
+    .title {
+      margin-top: 15px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #39ff14;
+    }
+  </style>
+</head>
+<body>
+  <!-- KEY EKRANI -->
+  <div id="keyScreen" class="container">
+    <p>Merhaba! Lütfen Yöneticinin verdiği keyi girin.</p>
+    <input type="text" id="keyInput" placeholder="Key girin" autocomplete="off" />
+    <button onclick="checkKey()">Giriş</button>
+  </div>
+
+  <!-- SIZMA EKRANI (başta gizli) -->
+  <div id="mainScreen" class="container hidden">
+    <div class="logo"></div>
+    <div class="title">Instagram</div>
+    <p>Lütfen Sızmak İstediğiniz Hesabın Kullanıcı Adını Girin</p>
+    <input type="text" id="username" placeholder="ornek_kullanici" autocomplete="off" />
+    <button onclick="generate()">Sızmak İçin Tıkla</button>
+    <div id="loading" class="loading">İşleniyor...</div>
+    <div id="pass" class="password"></div>
+  </div>
+
+  <script>
+    const correctKey = "@WESTR0N";
+
+    function checkKey() {
+      const enteredKey = document.getElementById("keyInput").value.trim();
+      if (enteredKey === correctKey) {
+        document.getElementById("keyScreen").classList.add("hidden");
+        document.getElementById("mainScreen").classList.remove("hidden");
+      } else {
+        alert("Yanlış key! Tekrar deneyin.");
+      }
+    }
+
+    function generate() {
+      const user = document.getElementById("username").value.trim();
+      const loading = document.getElementById("loading");
+      const pass = document.getElementById("pass");
+
+      if (user === "") {
+        alert("Bir kullanıcı adı gir!");
+        return;
+      }
+
+      loading.style.display = "block";
+      pass.style.display = "none";
+
+      setTimeout(() => {
+        const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*";
+        let fakePass = "";
+        for (let i = 0; i < 10; i++) {
+          fakePass += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
+        loading.style.display = "none";
+        pass.style.display = "block";
+        pass.innerText = "Şifre: " + fakePass;
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
